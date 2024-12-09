@@ -42,11 +42,11 @@ cat filename 可以显示文件内容
 
   
 
-<img src="git_figure/image-20240513171758145.png" alt="image-20240513171758145" style="zoom:50%;" />
+<img src="./assets/image-20240513171758145.png" alt="image-20240513171758145" style="zoom:50%;" />
 
 ## Git中的区域
 
-<img src="git_figure/image-20240513172607872.png" alt="image-20240513172607872" style="zoom:50%;" />
+<img src="./assets/image-20240513172607872.png" alt="image-20240513172607872" style="zoom:50%;" />
 
 
 
@@ -61,7 +61,7 @@ cat filename 可以显示文件内容
 
 Git的工作就是创建和保存项目的快照以及与之后的快照进行对比。
 
-<img src="git_figure/image-20240513175356847.png" alt="image-20240513175356847" style="zoom:50%;" />
+<img src="./assets/image-20240513175356847.png" alt="image-20240513175356847" style="zoom:50%;" />
 
 
 
@@ -162,7 +162,7 @@ git config --global user.email test@runoob.com
 
 下图展示了配置中有哪些参数
 
-![image-20240513184233244](git_figure/image-20240513184233244.png)
+![image-20240513184233244](./assets/image-20240513184233244.png)
 
 
 
@@ -170,7 +170,7 @@ git config --global user.email test@runoob.com
 
 使用分支表示可以从开发主线分离开，然后在不影响主线的情况下继续工作。
 
-<img src="git_figure/image-20240513184423855.png" alt="image-20240513184423855" style="zoom:50%;" />
+<img src="./assets/image-20240513184423855.png" alt="image-20240513184423855" style="zoom:50%;" />
 
 对一个目录操作的过程中，不断切换分支，目录下对应的文件也是在不断变化的：a分支下的test.txt文件和b分支下的test.txt文件是不同的，改变其中一个不会影响到另一个。
 
@@ -206,7 +206,7 @@ git merge name 将指定分支合并到当前分支，这里合并的是修改�
 
 在文件中会被如图所示的方式排版，注意多余的标识符要删干净
 
-<img src="git_figure/image-20240518222358985.png" alt="image-20240518222358985" style="zoom:50%;" />
+<img src="./assets/image-20240518222358985.png" alt="image-20240518222358985" style="zoom:50%;" />
 
 
 
@@ -237,19 +237,7 @@ git blame [选项] <文件路径>
 > - `-M`：对于移动的代码行，也进行代码行溯源。
 > - `-C -C` 或 `-M -M`：对于较多改动的代码行，进行更进一步的溯源。
 
-## 标签
 
-有点类似于给软件打个v1.0版本一样
-
-git tag 查找所有的标签
-
-git tag -a name [-m "XXXX"] 给最近的一次提交打上标签
-
-git tag -d name 删除标签
-
-
-
-git show tagname 查看此版本所修改的内容
 
 
 
@@ -257,7 +245,7 @@ git show tagname 查看此版本所修改的内容
 
 ## Git远程仓库
 
-<img src="git_figure/image-20240520220842588.png" alt="image-20240520220842588" style="zoom:50%;" />
+<img src="./assets/image-20240520220842588.png" alt="image-20240520220842588" style="zoom:50%;" />
 
 如果想通过git分享代码或者合作，那么就需要将数据放到一台其他人员能连接到的服务器上。
 
@@ -269,7 +257,7 @@ git show tagname 查看此版本所修改的内容
 
 用于添加一个远程仓库到本地并命名为origin，其中XXX是在github上创建的远程仓库的SSH协议用于关联
 
-<img src="git_figure/image-20240521180631780.png" alt="image-20240521180631780" style="zoom:50%;" />
+<img src="./assets/image-20240521180631780.png" alt="image-20240521180631780" style="zoom:50%;" />
 
 ```python
 git remote add origin XXX
@@ -311,6 +299,60 @@ git remote rm 仓库名 用于删除远程仓库。
 
 在日常的更新中，首先把所有的修改提交，然后再更新远程仓库。
 
-![image-20240614123040512](assets/image-20240614123040512.png)
+![image-20240614123040512](./assets/image-20240614123040512-1733711877675-1.png)
 
-![image-20240614123047543](assets/image-20240614123047543.png)
+![image-20240614123047543](./assets/image-20240614123047543-1733711877676-2.png)
+
+
+
+
+
+## 标签
+
+有点类似于给软件打个v1.0版本一样
+
+`git tag` 查找所有的标签
+
+`git tag <tagname> `打上标签     `git tag -a<tagname> commit_id`给**指定**的版本打上标签
+
+`git tag -a <tagname>` 记录这标签是什么时候打的，谁打的，添加个标签的注解
+
+
+
+ `git push origin <tagname>`默认的Push不会将标签推到仓库，需要**手动添加**
+	`git push origin --tags`   推送**所有标签**
+
+
+
+`git checkout <tagname>` 切换到某个标签指向的版本，此时会进入“分离头指针”状态，这意味着没有在一个具体的分支上，因为 tag 相当于是一个**快照**，是不能**更改**它的代码的
+
+如果要在 tag 代码的基础上做修改，你需要一个分支：
+
+`git checkout -b branch_name tag_name`
+
+
+
+`git tag -d <tagname>` **本地**删除标签
+
+`git push origin --delete <tagname>`  删除远程仓库的标签
+
+
+
+
+
+`git show tagname` 查看此版本所修改的内容
+
+
+
+## 版本回退
+
+`git reset --hard <commit_hash>`会将当前分支指针回退到 `<commit_hash>`，并且会**丢弃**所有工作区和暂存区的修改。这是最彻底的回退方式。
+
+
+
+其中<commit_hash>通过**git log --oneline**查看(由于提交过多显示会被折叠，需要按住enter才能往下显示)，就是左侧的**哈希值**
+
+![](./assets/{A81EFA65-4720-4A14-AFD2-66CA91D81452}.png)
+
+但是git log只能看到**当前状态之前的提交**，当切换到之前的版本后如果想再回来，需要使用**git reflog**命令查看所有的提交记录，然后选择对用的commit_id即可。
+
